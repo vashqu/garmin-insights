@@ -1,0 +1,6 @@
+run,suite,model,runs,overall_pass,numbers_faithful,includes_required,no_forbidden,top_rec_reflected,format_ok,length_60_170,length_80_140,typo_free,answer_correct,right_tool,median_s,p90_s,source_file
+2026-11-19T14:03:52,briefing,qwen3:1.7b,24,0.542,1.0,0.833,1.0,1.0,1.0,0.708,0.208,1.0,,,1.86,2.35,20261119-140653.json
+2026-11-19T14:03:52,briefing,qwen3:4b-instruct,24,0.917,0.958,0.958,1.0,1.0,1.0,1.0,0.292,1.0,,,4.63,6.58,20261119-140653.json
+2026-11-19T14:10:21,chat,qwen3:4b-instruct,24,1.0,0.917,,,,,,,,1.0,0.917,5.07,11.33,20261119-141245.json
+2026-11-19T14:24:40,briefing,qwen3:4b-instruct,24,0.917,0.958,0.958,1.0,1.0,1.0,1.0,0.292,1.0,,,3.87,5.35,20261119-142916.json
+2026-11-19T14:24:40,chat,qwen3:4b-instruct,24,1.0,0.917,,,,,,,,1.0,0.917,5.77,13.59,20261119-142916.json

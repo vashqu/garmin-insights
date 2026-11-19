@@ -1,0 +1,91 @@
+{
+ "at": "2026-11-19T14:40:19",
+ "machine": "Mac15,12 \u00b7 Apple M3 \u00b7 16 GB",
+ "macos": "26.6.2",
+ "on_battery": true,
+ "power_baseline_w": 13.2,
+ "app_cold_start_s": 1.61,
+ "app_rss_after_start_mb": 204.1,
+ "app_idle_cpu_pct": 0.0,
+ "power_app_idle_w": 13.2,
+ "page_load_s": {
+  "/": 0.73,
+  "/sleep": 0.78,
+  "/recovery": 0.67,
+  "/stress": 0.69,
+  "/muscle": 0.71,
+  "/training": 0.57,
+  "/running": 0.61,
+  "/longevity": 0.59,
+  "/journal": 0.6,
+  "/explore": 0.63,
+  "/settings": 0.58
+ },
+ "page_load_median_s": 0.63,
+ "page_load_p90_s": 0.73,
+ "app_rss_after_pages_mb": 155.5,
+ "power_browsing_w": 13.3,
+ "analytics_build_s": 0.22,
+ "history_days": 77,
+ "forecast_first_s": 4.05,
+ "forecast_warm_s": 0.02,
+ "forecast_values": 28,
+ "forecast_extra_rss_mb": 312.0,
+ "power_forecast_w": 13.3,
+ "sync_incremental_s": 7.3,
+ "sync_api_requests": 7,
+ "power_sync_w": 13.3,
+ "briefing_cold": {
+  "wall_s": 8.28,
+  "load_s": 2.79,
+  "prompt_tokens": 476,
+  "prompt_tok_s": 338.2,
+  "gen_tokens": 127,
+  "gen_tok_s": 31.4
+ },
+ "briefing_warm_s_median": 4.37,
+ "gen_tok_s_median": 29.8,
+ "prompt_tok_s_cold": 338.2,
+ "power_llm_generation_w": 33.2,
+ "power_llm_generation_peak_w": 33.2,
+ "ollama_runner_rss_mb": 3012.1,
+ "ollama_ps": [
+  "qwen3:4b-instruct    0edcdef34593    3.2 GB    100% GPU     4096       llamacpp    9 minutes from now"
+ ],
+ "chat": [
+  {
+   "q": "What was my average resting heart rate over the last 7 days?",
+   "s": 10.51,
+   "tools": [
+    "get_metric_series"
+   ],
+   "status": "ok"
+  },
+  {
+   "q": "Which muscle did I train least in the last 28 days?",
+   "s": 5.23,
+   "tools": [
+    "strength_summary"
+   ],
+   "status": "ok"
+  },
+  {
+   "q": "Was my average sleep duration higher in the last 7 days or in the 7 days before that? Give both averages.",
+   "s": 9.44,
+   "tools": [
+    "get_metric_series",
+    "get_metric_series"
+   ],
+   "status": "ok"
+  }
+ ],
+ "chat_median_s": 9.44,
+ "power_chat_w": 33.4,
+ "ollama_runner_rss_after_chat_mb": 3344.7,
+ "disk_mb": {
+  "python_env (.venv, incl. PyTorch)": 1259.0,
+  "app data (~/.garmin_insights)": 7.4,
+  "Ollama models": 2381.6,
+  "Chronos model cache": 66.1
+ }
+}

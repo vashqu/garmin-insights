@@ -1,0 +1,19 @@
+.env
+.env.*
+*.db
+*.db-*
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+.DS_Store
+# personal data never committed
+data_local/
+tests/fixtures/private/
+# raw eval outputs stay local (full model texts); metrics are kept in evals/results/history.csv
+evals/results/*.json
+evals/results/*.md

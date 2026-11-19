@@ -1,0 +1,165 @@
+{
+  "_doc": "Morning-briefing eval scenarios. 'facts' uses the exact schema the app sends (recommend/briefing.py). Expectations: must_include = list of groups, each group passes if ANY term appears (case-insensitive substring); must_exclude = none of these may appear; first_rec_terms = the top recommendation must be reflected (any term).",
+  "cases": [
+    {
+      "id": "good_day",
+      "description": "Everything normal, high readiness → encourage a quality session",
+      "facts": {
+        "date": "Tuesday 17 November",
+        "readiness": {"score": 78, "verdict": "good"},
+        "sleep": {"hours": 7.8, "need_hours": 7.3, "score": 88, "regularity_index_7d": 86, "debt_7d_hours": 0.4, "verdict": "met your need", "regularity_verdict": "regular"},
+        "resting_hr": {"today": 52, "your_normal": 54, "status": "normal"},
+        "body_battery_high": 91,
+        "stress_yesterday": {"avg": 24, "status": "normal"},
+        "illness_signal": null,
+        "recommendations": [
+          {"title": "Good day for a hard session", "do": "Go for quality: heavy strength for Chest, Quads, Hamstrings, or an interval/tempo run."},
+          {"title": "Muscles below weekly set target", "do": "Next strength session: prioritise Hamstrings (4), Calves (3), Side delts (2). Aim for ≥10 hard sets per muscle per week."}
+        ]
+      },
+      "must_include": [["good", "great", "strong", "well"], ["hard", "quality", "heavy", "interval", "tempo"]],
+      "must_exclude": ["rest day", "take it easy", "short of your need", "poor sleep"],
+      "first_rec_terms": ["hard", "quality", "heavy", "interval"]
+    },
+    {
+      "id": "low_readiness",
+      "description": "Short sleep + elevated RHR → recovery day, must not cheerlead",
+      "facts": {
+        "date": "Wednesday 18 November",
+        "readiness": {"score": 31, "verdict": "low"},
+        "sleep": {"hours": 5.4, "need_hours": 7.3, "score": 52, "regularity_index_7d": 74, "debt_7d_hours": 4.8, "verdict": "1.9 h short of your need", "regularity_verdict": "somewhat irregular"},
+        "resting_hr": {"today": 61, "your_normal": 55, "status": "slightly off your norm"},
+        "body_battery_high": 48,
+        "stress_yesterday": {"avg": 41, "status": "slightly off your norm"},
+        "illness_signal": null,
+        "recommendations": [
+          {"title": "Prioritise recovery today", "do": "Easy 20–30 min walk/jog or swim, mobility/stretching, and an early night. Postpone heavy or high-intensity work."},
+          {"title": "Sleep debt is building", "do": "Go to bed ~30–45 min earlier for the next few nights."}
+        ]
+      },
+      "must_include": [["recover", "easy", "rest", "light"], ["short", "less", "not enough", "below"]],
+      "must_exclude": ["great day", "perfect day", "good day for a hard", "go for quality", "met your need", "heavy strength"],
+      "first_rec_terms": ["recover", "easy", "walk", "mobility"]
+    },
+    {
+      "id": "illness_signal",
+      "description": "Illness watch 'likely' → take it easy, NO diagnosis",
+      "facts": {
+        "date": "Thursday 19 November",
+        "readiness": {"score": 28, "verdict": "low"},
+        "sleep": {"hours": 6.9, "need_hours": 7.2, "score": 70, "regularity_index_7d": 83, "debt_7d_hours": 1.2, "verdict": "0.3 h short of your need", "regularity_verdict": "regular"},
+        "resting_hr": {"today": 64, "your_normal": 54, "status": "well off your norm"},
+        "body_battery_high": 55,
+        "stress_yesterday": {"avg": 38, "status": "slightly off your norm"},
+        "illness_signal": "likely",
+        "recommendations": [
+          {"title": "Your body may be fighting something", "do": "Keep today easy: rest, walking or gentle mobility only. Skip intensity and heavy lifting; recheck tomorrow. If you feel unwell, take a full rest day."}
+        ]
+      },
+      "must_include": [["easy", "rest", "gentle", "light"], ["signal", "elevated", "higher", "above", "fighting", "strain"]],
+      "must_exclude": ["covid", "flu", "infection", "virus", "you are sick", "you have a", "diagnos", "fever", "hard session", "intervals"],
+      "first_rec_terms": ["easy", "rest", "gentle"]
+    },
+    {
+      "id": "sleep_debt_irregular",
+      "description": "Moderate readiness, big sleep debt and irregular timing → sleep advice",
+      "facts": {
+        "date": "Monday 16 November",
+        "readiness": {"score": 49, "verdict": "moderate"},
+        "sleep": {"hours": 6.2, "need_hours": 7.4, "score": 66, "regularity_index_7d": 61, "debt_7d_hours": 6.5, "verdict": "1.2 h short of your need", "regularity_verdict": "somewhat irregular"},
+        "resting_hr": {"today": 55, "your_normal": 55, "status": "normal"},
+        "body_battery_high": 63,
+        "stress_yesterday": {"avg": 30, "status": "normal"},
+        "illness_signal": null,
+        "recommendations": [
+          {"title": "Moderate day", "do": "Normal-volume strength for Chest, Triceps; keep cardio easy (conversational pace)."},
+          {"title": "Sleep debt is building", "do": "Go to bed ~30–45 min earlier for the next few nights."},
+          {"title": "Make sleep timing more regular", "do": "Pick a fixed wake-up time (also on weekends) and keep bedtime within ±30 min."}
+        ]
+      },
+      "must_include": [["bed", "sleep earlier", "earlier", "wake"], ["moderate", "normal-volume", "easy"]],
+      "must_exclude": ["met your need", "great sleep", "perfect"],
+      "first_rec_terms": ["moderate", "normal-volume", "normal volume", "chest", "triceps"]
+    },
+    {
+      "id": "missing_sleep",
+      "description": "Watch not worn overnight → must not invent sleep numbers",
+      "facts": {
+        "date": "Saturday 14 November",
+        "readiness": {"score": null, "verdict": "unknown"},
+        "sleep": {"hours": null, "need_hours": 7.2, "score": null, "regularity_index_7d": null, "debt_7d_hours": null},
+        "resting_hr": {"today": 56, "your_normal": 55, "status": "normal"},
+        "body_battery_high": 70,
+        "stress_yesterday": {"avg": 29, "status": "normal"},
+        "illness_signal": null,
+        "recommendations": [
+          {"title": "Strength training this week", "do": "Get at least 2 strength sessions in per week."}
+        ]
+      },
+      "must_include": [["strength"]],
+      "must_exclude": ["you slept", "hours of sleep", "sleep score of", "readiness of", "readiness is"],
+      "first_rec_terms": ["strength"]
+    },
+    {
+      "id": "high_stress",
+      "description": "Stress well off norm → breathing recommendation must surface",
+      "facts": {
+        "date": "Friday 13 November",
+        "readiness": {"score": 52, "verdict": "moderate"},
+        "sleep": {"hours": 7.0, "need_hours": 7.1, "score": 74, "regularity_index_7d": 80, "debt_7d_hours": 1.5, "verdict": "met your need", "regularity_verdict": "regular"},
+        "resting_hr": {"today": 56, "your_normal": 55, "status": "normal"},
+        "body_battery_high": 58,
+        "stress_yesterday": {"avg": 52, "status": "well off your norm"},
+        "illness_signal": null,
+        "recommendations": [
+          {"title": "Moderate day", "do": "Normal-volume strength for Back, Biceps; keep cardio easy (conversational pace)."},
+          {"title": "Take a slow-breathing break", "do": "5–10 min of slow breathing at ~6 breaths/min (e.g. 4 s in, 6 s out), ideally mid-afternoon or before bed."}
+        ]
+      },
+      "must_include": [["stress"], ["breath"]],
+      "must_exclude": ["anxiety disorder", "diagnos"],
+      "first_rec_terms": ["moderate", "normal-volume", "normal volume", "back", "biceps"]
+    },
+    {
+      "id": "race_week",
+      "description": "Race plan active → race guidance should appear",
+      "facts": {
+        "date": "Sunday 15 November",
+        "readiness": {"score": 66, "verdict": "good"},
+        "sleep": {"hours": 7.4, "need_hours": 7.3, "score": 81, "regularity_index_7d": 84, "debt_7d_hours": 0.8, "verdict": "met your need", "regularity_verdict": "regular"},
+        "resting_hr": {"today": 53, "your_normal": 54, "status": "normal"},
+        "body_battery_high": 82,
+        "stress_yesterday": {"avg": 27, "status": "normal"},
+        "illness_signal": null,
+        "recommendations": [
+          {"title": "Good day for a hard session", "do": "Go for quality: heavy strength for Glutes, Calves, or an interval/tempo run."},
+          {"title": "City 10K: Taper phase, 2 weeks out", "do": "This week: ~18.5 km, long run 6.0 km. Key: Keep intensity: short race-pace reps (e.g. 4×1 km)"}
+        ]
+      },
+      "must_include": [["10k", "race", "taper"]],
+      "must_exclude": ["rest day"],
+      "first_rec_terms": ["hard", "quality", "interval", "tempo", "heavy"]
+    },
+    {
+      "id": "hrv_below",
+      "description": "HRV trend below normal band → reduce intensity",
+      "facts": {
+        "date": "Tuesday 10 November",
+        "readiness": {"score": 38, "verdict": "low"},
+        "sleep": {"hours": 7.1, "need_hours": 7.2, "score": 76, "regularity_index_7d": 82, "debt_7d_hours": 1.0, "verdict": "met your need", "regularity_verdict": "regular"},
+        "resting_hr": {"today": 57, "your_normal": 55, "status": "normal"},
+        "body_battery_high": 60,
+        "stress_yesterday": {"avg": 33, "status": "normal"},
+        "illness_signal": null,
+        "hrv": {"last_night_ms": 41, "trend": "below"},
+        "recommendations": [
+          {"title": "HRV trend below your normal range", "do": "Reduce intensity until your 7-day HRV returns to your normal band."},
+          {"title": "Prioritise recovery today", "do": "Easy 20–30 min walk/jog or swim, mobility/stretching, and an early night. Postpone heavy or high-intensity work."}
+        ]
+      },
+      "must_include": [["hrv"], ["reduce", "easy", "lower", "recover", "lighter"]],
+      "must_exclude": ["go for quality", "great day", "hard session today"],
+      "first_rec_terms": ["hrv"]
+    }
+  ]
+}
