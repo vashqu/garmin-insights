@@ -60,7 +60,20 @@ def create_app() -> dash.Dash:
         mod = importlib.import_module(f"garmin_insights.ui.pages.{name}")
         if mod.__name__ in dash.page_registry:
             dash.page_registry[mod.__name__]["layout"] = mod.layout
-    app.layout = html.Div([
+    app.layout = _layout  # a function: re-reads the saved appearance on every load
+    _register_callbacks(app)
+    return app
+
+
+THEME_OPTIONS = [{"label": "Auto", "value": "auto"}, {"label": "☀ Light", "value": "light"},
+                 {"label": "☾ Dark", "value": "dark"}]
+
+
+def _layout():
+    pref = config.Settings.load().theme or "auto"
+    if pref not in ("auto", "light", "dark"):
+        pref = "auto"
+    return html.Div([
         dcc.Location(id="url"),
         dcc.Store(id="theme", storage_type="memory"),
         dcc.Store(id="data-version", data=frame.data_version()),
@@ -72,7 +85,9 @@ def create_app() -> dash.Dash:
             html.Div([
                 html.Div([
                     html.Div(id="page-title", className="title"),
-                    html.Div([html.Span(id="sync-status"),
+                    html.Div([dcc.RadioItems(id="theme-pref", options=THEME_OPTIONS, value=pref, inline=True,
+                                             className="theme-toggle", persistence=False),
+                              html.Span(id="sync-status"),
                               dbc.Progress(id="sync-progress", value=0, style={"width": "120px"},
                                            className="d-none"),
                               html.Button("Sync now", id="sync-btn", className="btn-ghost")], className="syncbar"),
@@ -81,25 +96,38 @@ def create_app() -> dash.Dash:
             ], className="main"),
         ], className="shell"),
     ])
-    _register_callbacks(app)
-    return app
 
 
 def _register_callbacks(app: dash.Dash) -> None:
-    # Theme: follow macOS appearance (prefers-color-scheme) inside the webview.
+    # Appearance: Auto follows macOS (prefers-color-scheme); Light/Dark force it. Applied client-side so the
+    # CSS tokens (html[data-theme]) and every Plotly chart (via the `theme` store) switch instantly.
     app.clientside_callback(
-        """function(_) {
+        """function(pref) {
+            pref = pref || 'auto';
+            window.__giPref = pref;
             const m = window.matchMedia('(prefers-color-scheme: dark)');
+            const root = document.documentElement;
+            if (pref === 'auto') { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', pref); }
             if (!window.__giThemeHooked) {
                 window.__giThemeHooked = true;
                 m.addEventListener('change', () => {
-                    dash_clientside.set_props('theme', {data: m.matches ? 'dark' : 'light'});
+                    if (window.__giPref === 'auto') {
+                        dash_clientside.set_props('theme', {data: m.matches ? 'dark' : 'light'});
+                    }
                 });
             }
-            return m.matches ? 'dark' : 'light';
+            return pref === 'auto' ? (m.matches ? 'dark' : 'light') : pref;
         }""",
-        Output("theme", "data"), Input("url", "pathname"),
+        Output("theme", "data"), Input("theme-pref", "value"),
     )
+
+    @app.callback(Output("theme-pref", "className"), Input("theme-pref", "value"), prevent_initial_call=True)
+    def _save_theme(pref):
+        s = config.Settings.load()
+        if pref in ("auto", "light", "dark") and s.theme != pref:
+            s.theme = pref
+            s.save()
+        return "theme-toggle"
 
     @app.callback(Output({"type": "nav", "href": dash.ALL}, "className"), Output("page-title", "children"),
                   Input("url", "pathname"))

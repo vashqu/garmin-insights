@@ -15,7 +15,7 @@ Built by Opus, phase by phase (§12). Every phase ends with tests passing and a 
 | Usage | **Morning check-in** daily; deeper exploring every 1–2 weeks |
 | Data sources | Official Garmin **Personal API** first → fallback to `garminconnect` (unofficial). Strong CSV for strength sets. |
 | App shell | **Native macOS window** (pywebview wrapping a local Dash server), launched from an app icon |
-| UI | Dash + Plotly + dash-bootstrap-components; **briefing-first** home screen; **metric** units |
+| UI | Dash + Plotly + dash-bootstrap-components; **briefing-first** home screen; **metric** units; Auto/Light/Dark appearance toggle |
 | Sync | On launch (background) + "Sync now" button. No background jobs, no notifications. |
 | History | First sync **1 year** |
 | Training load | Owner does **not** rate effort on the watch, so we use **HR-based TRIMP**. Strength load comes from Strong sets (RPE used if logged in Strong). |

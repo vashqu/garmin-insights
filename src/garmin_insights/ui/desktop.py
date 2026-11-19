@@ -58,8 +58,10 @@ def _warmup() -> None:
 def _window(url: str) -> int:
     import webview
 
+    pref = config.Settings.load().theme
+    bg = "#0d0d0d" if pref == "dark" else "#f9f9f7"  # avoids a white flash before the page loads in dark mode
     webview.create_window(config.APP_NAME, url, width=1360, height=900, min_size=(1024, 700),
-                          background_color="#f9f9f7", text_select=True)
+                          background_color=bg, text_select=True)
     webview.start()
     return 0
 
